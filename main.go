@@ -7,54 +7,52 @@ import (
 )
 
 type Task struct {
-	_id               int
-	_priority         int
-	_name             string
-	_discrip          string
-	_additInfo        string
-	_progressComplete float64
-	_time             time.Time
-	_date             time.Time
-	_isDo             bool
+	Id int
+	Priority int
+	Name string
+	Discrip string
+	ProgressComplete float64
+	Time time.Time
+	Date time.Time
+	IsDo bool
 }
 
 type Storage interface {
-	CreateTask()
-	GetTask()
-	UpdateTask()
-	DeleteTask()
+	CreateTask(id, priority int, name, discrip string, pComplete float64, time, date time.Time, is_Do bool)
+	GetTask(id int) Task
+	Update(id int, task Task)
+	Delete(id int)
 }
 
 type MemoryStorage struct {
-	tasks []Task
+	Tasks []Task
 }
 
-func (ms *MemoryStorage) CreateTask(id, priority int, name, discrip, additInfo string, pComplete float64, time, date time.Time, is_Do bool) {
+func (ms *MemoryStorage) CreateTask(id, priority int, name, discrip string, pComplete float64, time, date time.Time, is_Do bool) {
 	task := Task{
-		_id:               id,
-		_priority:         priority,
-		_name:             name,
-		_discrip:          discrip,
-		_additInfo:        additInfo,
-		_progressComplete: pComplete,
-		_time:             time,
-		_date:             date,
-		_isDo:             is_Do,
+		Id: id,
+		Priority: priority,
+		Name: name,
+		Discrip: discrip,
+		ProgressComplete: pComplete,
+		Time: time,
+		Date: date,
+		IsDo: is_Do,
 	}
-	ms.tasks = append(ms.tasks, task)
+	ms.Tasks = append(ms.Tasks, task)
 }
 
 func (ms *MemoryStorage) GetTask(id int) Task {
-	getTask := ms.tasks[id-1]
+	getTask := ms.Tasks[id-1]
 	return getTask
 }
 
 func (ms *MemoryStorage) Update(id int, task Task) {
-	ms.tasks[id-1] = task
+	ms.Tasks[id-1] = task
 }
 
 func (ms *MemoryStorage) Delete(id int) {
-	ms.tasks = slices.Delete(ms.tasks, id-1, 1)
+	ms.Tasks = slices.Delete(ms.Tasks, id-1, 1)
 }
 
 func main() {
@@ -65,7 +63,6 @@ func main() {
 		3,
 		"Сделать лабораторную",
 		"Написать трекер задач на Go",
-		"Сдать до конца недели",
 		25.5,
 		time.Date(0, 1, 1, 14, 30, 0, 0, time.Local),
 		time.Date(2026, time.October, 15, 0, 0, 0, 0, time.Local),
@@ -77,7 +74,6 @@ func main() {
 		4,
 		"Сделать проект",
 		"Ряды",
-		"Сдать завтра",
 		0,
 		time.Date(0, 1, 1, 14, 30, 0, 0, time.Local),
 		time.Date(2026, time.October, 15, 0, 0, 0, 0, time.Local),
