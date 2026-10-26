@@ -5,16 +5,16 @@ import (
 )
 
 const (
-	StatusToDo Status = "TODO"
-	StatusWip  Status = "WIP"
-	StatusDone Status = "DO"
+	StatusToDo Status = "todo"
+	StatusWip  Status = "in_progress"
+	StatusDone Status = "done"
 )
 
 type Task struct {
 	Id               int
-	Priority         int
 	Name             string
-	Discrip          string
+	Priority         int
+	Discription      string
 	ProgressComplete float64
 	Time             time.Time
 	Date             time.Time
